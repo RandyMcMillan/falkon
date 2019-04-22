@@ -21,8 +21,9 @@
 #include "mainapplication.h"
 #include "html5permissionsmanager.h"
 
-#include <QtWebEngineWidgetsVersion>
+#include <KLocalizedString>
 
+#include <QtWebEngineWidgetsVersion>
 
 HTML5PermissionsDialog::HTML5PermissionsDialog(QWidget* parent)
     : QDialog(parent)
@@ -66,7 +67,7 @@ void HTML5PermissionsDialog::showFeaturePermissions(QWebEnginePage::Feature feat
     for (const QString &site : grantedSites) {
         QTreeWidgetItem* item = new QTreeWidgetItem(ui->treeWidget);
         item->setText(0, site);
-        item->setText(1, tr("Allow"));
+        item->setText(1, i18n("Allow"));
         item->setData(0, Qt::UserRole + 10, Allow);
         ui->treeWidget->addTopLevelItem(item);
     }
@@ -75,7 +76,7 @@ void HTML5PermissionsDialog::showFeaturePermissions(QWebEnginePage::Feature feat
     for (const QString &site : deniedSites) {
         QTreeWidgetItem* item = new QTreeWidgetItem(ui->treeWidget);
         item->setText(0, site);
-        item->setText(1, tr("Deny"));
+        item->setText(1, i18n("Deny"));
         item->setData(0, Qt::UserRole + 10, Deny);
         ui->treeWidget->addTopLevelItem(item);
     }

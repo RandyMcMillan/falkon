@@ -44,6 +44,8 @@
 #include <QUrlQuery>
 #include <QtGuiVersion>
 
+#include <KLocalizedString>
+
 #ifdef QZ_WS_X11
 #include <QX11Info>
 #include <xcb/xcb.h>
@@ -376,21 +378,21 @@ QString QzTools::alignTextToWidth(const QString &string, const QString &text, co
 QString QzTools::fileSizeToString(qint64 size)
 {
     if (size < 0) {
-        return QObject::tr("Unknown size");
+        return i18n("Unknown size");
     }
 
     double _size = size / 1024.0; // KB
     if (_size < 1000) {
-        return QString::number(_size > 1 ? _size : 1, 'f', 0) + QLatin1Char(' ') + QObject::tr("KB");
+        return QString::number(_size > 1 ? _size : 1, 'f', 0) + QLatin1Char(' ') + i18n("KB");
     }
 
     _size /= 1024; // MB
     if (_size < 1000) {
-        return QString::number(_size, 'f', 1) + QLatin1Char(' ') + QObject::tr("MB");
+        return QString::number(_size, 'f', 1) + QLatin1Char(' ') + i18n("MB");
     }
 
     _size /= 1024; // GB
-    return QString::number(_size, 'f', 2) + QLatin1Char(' ') + QObject::tr("GB");
+    return QString::number(_size, 'f', 2) + QLatin1Char(' ') + i18n("GB");
 }
 
 QPixmap QzTools::createPixmapForSite(const QIcon &icon, const QString &title, const QString &url)
@@ -853,11 +855,11 @@ bool QzTools::startExternalProcess(const QString &executable, const QString &arg
 
     if (!success) {
         QString info = "<ul><li><b>%1</b>%2</li><li><b>%3</b>%4</li></ul>";
-        info = info.arg(QObject::tr("Executable: "), executable,
-                        QObject::tr("Arguments: "), arguments.join(QLatin1Char(' ')));
+        info = info.arg(i18n("Executable: "), executable,
+                        i18n("Arguments: "), arguments.join(QLatin1Char(' ')));
 
-        QMessageBox::critical(0, QObject::tr("Cannot start external program"),
-                              QObject::tr("Cannot start external program! %1").arg(info));
+        QMessageBox::critical(0, i18n("Cannot start external program"),
+                              i18n("Cannot start external program! %1", info));
     }
 
     return success;
