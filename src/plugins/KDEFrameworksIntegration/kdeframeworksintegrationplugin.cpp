@@ -37,6 +37,8 @@
 #include <QMenu>
 #include <QJsonArray>
 
+#include <KLocalizedString>
+
 KDEFrameworksIntegrationPlugin::KDEFrameworksIntegrationPlugin()
     : QObject()
 {
@@ -67,7 +69,7 @@ void KDEFrameworksIntegrationPlugin::init(InitState state, const QString &settin
     }
 
     m_sharePageMenu = new Purpose::Menu();
-    m_sharePageMenu->setTitle(tr("Share page"));
+    m_sharePageMenu->setTitle(i18n("Share page"));
     m_sharePageMenu->setIcon(QIcon::fromTheme(QStringLiteral("document-share")));
     m_sharePageMenu->model()->setPluginType(QStringLiteral("ShareUrl"));
 

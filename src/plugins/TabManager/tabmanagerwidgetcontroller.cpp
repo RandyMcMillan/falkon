@@ -29,8 +29,9 @@
 #include <QDesktopWidget>
 #include <QAction>
 #include <QStyle>
-
 #include <QDebug>
+
+#include <KLocalizedString>
 
 class TabManagerButton : public AbstractButtonInterface
 {
@@ -48,7 +49,7 @@ public:
 
     QString name() const override
     {
-        return tr("Tab Manager button");
+        return i18n("Tab Manager button");
     }
 };
 
@@ -66,12 +67,12 @@ TabManagerWidgetController::~TabManagerWidgetController()
 
 QString TabManagerWidgetController::title() const
 {
-    return tr("Tab Manager");
+    return i18n("Tab Manager");
 }
 
 QAction* TabManagerWidgetController::createMenuAction()
 {
-    QAction* act = new QAction(tr("Tab Manager"), this);
+    QAction* act = new QAction(i18n("Tab Manager"), this);
     act->setCheckable(true);
     act->setIcon(QIcon(":tabmanager/data/tabmanager.png"));
     act->setShortcut(QKeySequence("Ctrl+Shift+M"));
@@ -97,8 +98,8 @@ AbstractButtonInterface* TabManagerWidgetController::createStatusBarIcon(Browser
 
     TabManagerButton* icon = new TabManagerButton(this);
     icon->setIcon(QPixmap(":tabmanager/data/tabmanager.png"));
-    icon->setTitle(tr("Tab Manager"));
-    icon->setToolTip(tr("Show Tab Manager"));
+    icon->setTitle(i18n("Tab Manager"));
+    icon->setToolTip(i18n("Show Tab Manager"));
     connect(icon, &AbstractButtonInterface::clicked, this, [=](AbstractButtonInterface::ClickController *c) {
         if (!defaultTabManager()) {
             return;
