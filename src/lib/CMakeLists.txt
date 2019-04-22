@@ -271,10 +271,6 @@ set(SRCS ${SRCS}
 # add the logging category for FALKON
 ecm_qt_declare_logging_category(LOGGING_SRCS HEADER falkon_private_debug.h IDENTIFIER "FALKON_PRIVATE_LOG" CATEGORY_NAME "org.kde.falkon")
 
-if (HAVE_LIBINTL)
-    set(SRCS ${SRCS} plugins/qml/api/i18n/qmli18n.cpp)
-endif()
-
 if (WIN32)
     set(SRCS ${SRCS} other/registerqappassociation.cpp)
 endif()
