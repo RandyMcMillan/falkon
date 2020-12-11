@@ -21,6 +21,7 @@
 #include "sbi_networkmanager.h"
 #include "mainapplication.h"
 #include "browserwindow.h"
+#include "useragentdialog.h"
 
 #include <QMenu>
 #include <QNetworkConfigurationManager>
@@ -56,6 +57,12 @@ void SBI_NetworkIcon::showDialog()
     dialog->open();
 }
 
+void SBI_NetworkIcon::openUserAgentManager()
+{
+    UserAgentDialog* dialog = new UserAgentDialog(this);
+    dialog->open();
+}
+
 void SBI_NetworkIcon::showMenu(const QPoint &pos)
 {
     QFont boldFont = font();
@@ -83,6 +90,7 @@ void SBI_NetworkIcon::showMenu(const QPoint &pos)
 
     menu.addSeparator();
     menu.addAction(tr("Manage proxies"), this, &SBI_NetworkIcon::showDialog);
+    menu.addAction(tr("Manage User Agents"), this, &SBI_NetworkIcon::openUserAgentManager);
     menu.exec(pos);
 }
 
