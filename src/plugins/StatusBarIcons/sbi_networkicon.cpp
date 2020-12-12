@@ -90,7 +90,12 @@ void SBI_NetworkIcon::showMenu(const QPoint &pos)
 
     menu.addSeparator();
     menu.addAction(tr("Manage proxies"), this, &SBI_NetworkIcon::showDialog);
+
+    menu.addSeparator();
+
+    menu.addAction(QIcon::fromTheme("preferences-system-network", QIcon(":sbi/data/preferences-network.png")), tr("Browser Identification"))->setFont(boldFont);
     menu.addAction(tr("Manage User Agents"), this, &SBI_NetworkIcon::openUserAgentManager);
+
     menu.exec(pos);
 }
 
