@@ -182,6 +182,29 @@ QString Scripts::setCss(const QString &css)
     return source.arg(style);
 }
 
+QString Scripts::setSnippet(const QString &snippet)
+{
+    QString source = QL1S("(function() {"
+                          "var script = document.createElement('script');"
+                          "script.type = 'application/javascript';"
+                          "script.async = false;"
+                          "script.textContent = \"%1\" + \"%2\";"
+                          "document.documentElement.appendChild(script);"
+                          "document.documentElement.removeChild(script);"
+                          "})()");
+
+    static QString snippetsSrc;
+    if (snippetsSrc.isEmpty()) {
+        snippetsSrc = QzTools::readAllFileContents(QSL(":adblock/snippets.js"));
+        snippetsSrc.replace(QL1S("\""), QL1S("\\\""));
+        snippetsSrc.replace(QL1S("\n"), QL1S("\\n"));
+    }
+    QString scriptContent = snippet;
+    scriptContent.replace(QL1S("\""), QL1S("\\\""));
+    scriptContent.replace(QL1S("\n"), QL1S("\\n"));
+    return source.arg(snippetsSrc, scriptContent);
+}
+
 QString Scripts::sendPostData(const QUrl &url, const QByteArray &data)
 {
     QString source = QL1S("(function() {"

@@ -426,6 +426,14 @@ QString AdBlockManager::elementHidingRulesForDomain(const QUrl &url) const
     return m_matcher->elementHidingRulesForDomain(url.host());
 }
 
+QString AdBlockManager::snippetRulesForDomain(const QUrl &url) const
+{
+    if (!isEnabled() || !canRunOnScheme(url.scheme()))
+        return QString();
+
+    return m_matcher->snippetRulesForDomain(url.host());
+}
+
 AdBlockSubscription* AdBlockManager::subscriptionByName(const QString &name) const
 {
     for (AdBlockSubscription* subscription : qAsConst(m_subscriptions)) {
