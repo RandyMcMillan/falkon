@@ -219,17 +219,17 @@ QString DownloadItem::currentSpeedToString(double speed)
 
     speed /= 1024; // kB
     if (speed < 1000) {
-        return tr("%1 kB/s", speed);
+        return tr("%1 kB/s").arg(locale.toString(speed, 'f', 0);
     }
 
     QLocale locale;
     speed /= 1024; //MB
     if (speed < 1000) {
-        return tr("%1 MB/s", locale.toString(speed, 'f', 2));
+        return tr("%1 MB/s").arg(locale.toString(speed, 'f', 2));
     }
 
     speed /= 1024; //GB
-    return tr("%1 GB/s", locale.toString(speed, 'f', 2));
+    return tr("%1 GB/s").arg(locale.toString(speed, 'f', 2));
 }
 
 void DownloadItem::updateDownloadInfo(double currSpeed, qint64 received, qint64 total)
