@@ -217,12 +217,12 @@ QString DownloadItem::currentSpeedToString(double speed)
         return tr("Unknown speed");
     }
 
+    QLocale locale;
     speed /= 1024; // kB
     if (speed < 1000) {
         return tr("%1 kB/s").arg(locale.toString(speed, 'f', 0));
     }
 
-    QLocale locale;
     speed /= 1024; //MB
     if (speed < 1000) {
         return tr("%1 MB/s").arg(locale.toString(speed, 'f', 2));
