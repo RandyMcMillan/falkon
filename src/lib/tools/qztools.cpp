@@ -383,16 +383,16 @@ QString QzTools::fileSizeToString(qint64 size)
 
     double _size = size / 1024.0; // KB
     if (_size < 1000) {
-        return tr("%1 kB").arg(locale.toString(_size > 1 ? _size : 1, 'f', 0));            
+        return QObject::tr("%1 kB").arg(locale.toString(_size > 1 ? _size : 1, 'f', 0));            
     }
 
     _size /= 1024; // MB
     if (_size < 1000) {
-        return tr("%1 MB").arg(locale.toString(_size, 'f', 1));            
+        return QObject::tr("%1 MB").arg(locale.toString(_size, 'f', 1));            
     }
 
     _size /= 1024; // GB
-    return tr("%1 GB").arg(locale.toString(_size, 'f', 2));            
+    return QObject::tr("%1 GB").arg(locale.toString(_size, 'f', 2));            
 }
 
 QPixmap QzTools::createPixmapForSite(const QIcon &icon, const QString &title, const QString &url)
