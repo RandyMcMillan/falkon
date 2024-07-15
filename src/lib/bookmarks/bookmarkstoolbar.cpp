@@ -270,9 +270,12 @@ void BookmarksToolbar::dropEvent(QDropEvent* e)
         const auto* bookmarkMime = static_cast<const BookmarksButtonMimeData*>(mime);
         bookmark = bookmarkMime->item();
         const int initialIndex = bookmark->parent()->children().indexOf(bookmark);
-        BookmarksToolbarButton* current = buttonAt(m_dropPos);
-        if (initialIndex < m_layout->indexOf(current)) {
+        if (initialIndex < row) {
             row -= 1;
+        }
+        if (row < 0) {
+            m_bookmarks->insertBookmark(parent, bookmark->parent()->children().size() - 1, bookmark);
+            return;
         }
     } else {
         const QUrl url = mime->urls().at(0);
