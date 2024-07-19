@@ -34,6 +34,7 @@ public:
 private Q_SLOTS:
     void onlineStateChanged(bool online);
     void showDialog();
+    void openUserAgentManager();
 
     void showMenu(const QPoint &pos);
     void useProxy();
