@@ -87,6 +87,11 @@ void AdBlockPlugin::webPageCreated(WebPage *page)
         if (!siteElementHiding.isEmpty()) {
             page->runJavaScript(Scripts::setCss(siteElementHiding), WebPage::SafeJsWorld);
         }
+
+        const QString snippet = manager->snippetRulesForDomain(page->url());
+        if (!snippet.isEmpty()) {
+            page->runJavaScript(Scripts::setSnippet(snippet), WebPage::SafeJsWorld);
+        }
     });
 }
 

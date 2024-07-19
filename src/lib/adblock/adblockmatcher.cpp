@@ -132,6 +132,69 @@ QString AdBlockMatcher::elementHidingRulesForDomain(const QString &domain) const
     return rules;
 }
 
+QString AdBlockMatcher::snippetRulesForDomain(const QString &domain) const
+{
+    QString rules;
+
+    for (const AdBlockRule* rule : m_snippetRules) {
+        if (!rule->matchDomain(domain))
+            continue;
+
+        QString command;
+        const QString snippet = rule->snippet();
+
+        QString line = snippet;
+        {
+            line = line.trimmed();
+            int idx = line.indexOf(QChar(' '));
+            if (idx < 0)
+                idx = line.length();
+            QString function = line.mid(0, idx);
+            function = function.replace(QChar('-'), QChar('_'));
+            // Only handle the snippets we support:
+            if (function != "abort_on_property_read" &&
+                function != "abort_on_property_write" &&
+                function != "abort_current_inline_script" &&
+                function != "override_property_read" &&
+                function != "json_prune" &&
+                function != "strip_fetch_query_parameter") {
+                continue;
+            }
+            command += function + QChar('(');
+            int argc = 0;
+            while (true) {
+                if (idx + 1 >= line.length())
+                    break;
+                int idx2 = idx + 1;
+                // Handle argument enclosed in quotes:
+                if (line[idx2] == QChar('\''))
+                    idx2 = line.indexOf(QRegularExpression("[^\\\\]'"), idx2 + 1);
+                idx2 = line.indexOf(QChar(' '), idx2);
+                if (idx2 < 0)
+                    idx2 = line.length();
+                QString arg = line.mid(idx + 1, idx2 - (idx + 1));
+                if (argc > 0)
+                    command += ",";
+                // Enclose argument in quotes if not already
+                if (!arg.startsWith(QChar('\''))) {
+                    arg = arg.replace(QChar('\''), QLatin1String("\\'"));
+                    arg = "'" + arg + "'";
+                }
+                command += arg;
+                ++argc;
+                idx = idx2;
+            }
+            if (idx < line.length()) {
+                qWarning() << "Failed to fully parse:" << line << line.mid(idx, -1);
+            }
+            command += QLatin1String(");\n");
+        }
+        rules.append(command);
+    }
+
+    return rules;
+}
+
 void AdBlockMatcher::update()
 {
     clear();
@@ -143,10 +206,7 @@ void AdBlockMatcher::update()
     for (AdBlockSubscription* subscription : subscriptions) {
         const auto rules = subscription->allRules();
         for (const AdBlockRule* rule : rules) {
-            // Don't add internally disabled rules to cache
-            if (rule->isInternalDisabled())
-                continue;
-            // Or unsupported ones
+            // Don't add unsupported rules to cache
             if (rule->isUnsupportedRule())
                 continue;
 
@@ -160,6 +220,11 @@ void AdBlockMatcher::update()
                     exceptionCssRules.append(rule);
                 else
                     cssRulesHash.insert(rule->cssSelector(), rule);
+            }
+            else if (rule->isSnippetRule()) {
+                if (!rule->isEnabled())
+                    continue;
+                m_snippetRules.append(rule);
             }
             else if (rule->isDocument()) {
                 m_documentRules.append(rule);
@@ -236,6 +301,7 @@ void AdBlockMatcher::clear()
     m_documentRules.clear();
     m_elemhideRules.clear();
     m_generichideRules.clear();
+    m_snippetRules.clear();
     qDeleteAll(m_createdRules);
     m_createdRules.clear();
 }

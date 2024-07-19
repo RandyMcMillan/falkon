@@ -41,6 +41,7 @@ public:
     static QString getAllMetaAttributes();
     static QString getFormData(const QPointF &pos);
     static QString scrollToAnchor(const QString &anchor);
+    static QString setSnippet(const QString &css);
 };
 
 #endif // SCRIPTS_H

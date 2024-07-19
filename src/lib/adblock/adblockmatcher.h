@@ -45,6 +45,8 @@ public:
     QString elementHidingRules() const;
     QString elementHidingRulesForDomain(const QString &domain) const;
 
+    QString snippetRulesForDomain(const QString &domain) const;
+
 public Q_SLOTS:
     void update();
     void clear();
@@ -59,6 +61,7 @@ private:
     QVector<const AdBlockRule*> m_documentRules;
     QVector<const AdBlockRule*> m_elemhideRules;
     QVector<const AdBlockRule*> m_generichideRules;
+    QVector<const AdBlockRule*> m_snippetRules;
 
     QString m_elementHidingRules;
     AdBlockSearchTree m_networkBlockTree;

@@ -77,6 +77,9 @@ public:
     bool isCssRule() const;
     QString cssSelector() const;
 
+    bool isSnippetRule() const;
+    QString snippet() const;
+
     bool isUnsupportedRule() const;
 
     bool isDocument() const;

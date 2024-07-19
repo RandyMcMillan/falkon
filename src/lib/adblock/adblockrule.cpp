@@ -174,9 +174,19 @@ QString AdBlockRule::cssSelector() const
     return m_matchString;
 }
 
+bool AdBlockRule::isSnippetRule() const
+{
+    return m_type == SnippetRule;
+}
+
+QString AdBlockRule::snippet() const
+{
+    return m_matchString;
+}
+
 bool AdBlockRule::isUnsupportedRule() const
 {
-    return m_type == ExtendedCssRule || m_type == SnippetRule || m_isInternalDisabled;
+    return m_type == ExtendedCssRule || m_isInternalDisabled;
 }
 
 bool AdBlockRule::isDocument() const
